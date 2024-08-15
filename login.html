@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de connexion</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #00ff00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            padding: 20px;
+            border: 1px solid #00ff00;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            background-color: #111;
+            color: #00ff00;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #00ff00;
+            color: #000;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #00cc00;
+        }
+        #get-password {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff);
+            background-size: 400% 400%;
+            color: #fff;
+            animation: gradientAnimation 5s ease infinite;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm">
+        <input type="password" id="password" placeholder="Entrez le mot de passe" required>
+        <button type="button" onclick="checkPassword()">Se connecter</button>
+        <div id="get-password" onclick="window.open('https://wa.me/+2250565343227?text=Bonjour%20je%20voudrais%20obtenir%20le%20mot%20de%20passe')">
+            》》Avoir le mot de passe《《
+        </div>
+        <p id="error" style="color: #ff0000; display: none;">Mot de passe incorrect</p>
+    </form>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === 'Jonnhyhack119' || password === 'Billionscash225') {
+                window.location.href = 'index.html'; // Redirige vers la page de prédictions
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple of Fortune Hacker 1.0</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background: #000; /* Dark background color */
+            color: #00ff00; /* Green text color */
+            overflow: auto; /* Enable scrolling if content overflows */
+        }
+        h1, h2 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            text-align: center;
+            margin-top: 20px;
+        }
+        h2 {
+            color: #FFFF00; /* Yellow color for main title */
+        }
+        form {
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            display: inline-block;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+        }
+        input, select {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            background-color: #111; /* Dark input background */
+            color: #00ff00; /* Green text color */
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #00ff00;
+            color: #000;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        button:hover {
+            background-color: #00cc00;
+        }
+        p {
+            font-size: 1.2em;
+            text-align: center;
+        }
+        #results {
+            font-size: 1.5em;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #loading {
+            font-size: 1.5em;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+        #contact {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        #more-bots {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff, #ff00ff);
+            background-size: 400% 400%;
+            color: #fff;
+            animation: gradientAnimation 5s ease infinite, glowAnimation 1.5s ease infinite;
+        }
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        @keyframes glowAnimation {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0000, 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000, 0 0 35px #ff0000; }
+            50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000; }
+            100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff0000, 0 0 20px #ff0000, 0 0 25px #ff0000, 0 0 30px #ff0000, 0 0 35px #ff0000; }
+        }
+        #background-text {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            font-size: 1.2em;
+            color: #00ff00;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            animation: typing 5s steps(30, end) infinite;
+        }
+        .note {
+            color: #ff0000; /* Red color for the note */
+            font-size: 1.2em;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>PRONOSTICS IA</h2>
+    <h1>Apple of Fortune Hacker 1.0</h1>
+    <p>Ceci est un programme informatique qui utilise des algorithmes similaires à ceux de Apple of Fortune. Entrez votre ID, votre mot de passe et spécifiez le bookmaker pour obtenir la prédiction :</p>
+    <form id="resultForm">
+        <input type="text" name="userId" id="userId" placeholder="Entrez votre ID" required pattern="\d+" title="L'ID doit être composé uniquement de chiffres">
+        <input type="password" name="password" id="password" placeholder="Entrez votre mot de passe" required>
+        <select name="bookmaker" id="bookmaker" required>
+            <option value="" disabled selected>Sélectionnez votre bookmaker</option>
+            <option value="1xbet">1xbet</option>
+            <option value="Paripesa">Paripesa</option>
+            <option value="888starz">888starz</option>
+            <option value="Melbet">Melbet</option>
+        </select>
+        <button type="button" onclick="generateResults()">Obtenir la prédiction</button>
+    </form>
+    <p id="loading">Hacking en cours...</p>
+    <p id="results">La prédiction apparaît ici</p>
+    <p class="note">Note : Ce programme n'est fiable qu'à 95% en raison des trucages des bookmakers
+    donc jouons avec maturité.</p>
+
+    <div id="contact">
+        Contactez-moi : <a href="mailto:billionsjonnhy@gmail.com" style="color: #00ff00;">billionsjonnhy@gmail.com</a>
+    </div>
+    <div id="more-bots" onclick="window.location.href='https://whatsapp.com/channel/0029VakvuvWFCCoNxS3g142R'">
+        》》plus de Bots《《
+    </div>
+
+    <div id="background-text">
+        # Importing Libraries
+        # Initializing Variables
+        # Starting Simulation
+        # Generating Results
+        # Complete
+    </div>
+
+    <script>
+        function generateResults() {
+            // Get form values
+            const userId = document.getElementById('userId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const bookmaker = document.getElementById('bookmaker').value;
+
+            // Check if all fields are filled
+            if (!userId || !password || !bookmaker) {
+                alert("Veuillez remplir tous les champs avant de continuer.");
+                return; // Exit the function if fields are not valid
+            }
+
+            // Display the loading message
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').innerText = '';
+
+            // Simulate hacking process for 2 seconds
+            setTimeout(() => {
+                // Always 5 apples with one bad apple represented by a red cross
+                const apples = ['🍎', '🍎', '🍎', '🍎', '❌']; // One bad apple represented by a red cross
+                const shuffled = apples.sort(() => Math.random() - 0.5); // Shuffle the array
+
+                // Display the shuffled result
+                const results = shuffled.join('');
+                document.getElementById('results').innerText = results;
+
+                // Hide the loading message
+                document.getElementById('loading').style.display = 'none';
+            }, 2000); // Simulate hacking for 2 seconds
+        }
+    </script>
+</body>
+</html>
