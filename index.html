@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  
+  <!-- PWA Manifest & iOS Support -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00ff00" />
+  
+  <!-- iOS PWA Fullscreen -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#000000" />
 
-  <title>Apple of Fortune Hacker 3.0</title>
+  <!-- iOS Icons (obligatoire pour icône écran d'accueil) -->
+  <link rel="apple-touch-icon" sizes="192x192" href="apple-of-fortune-icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="apple-of-fortune-icon-512.png" />
 
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json" />
+  <title>Apple of Fortune Hack</title>
 
-  <!-- CSS Styles -->
   <style>
     body {
       margin: 0;
@@ -115,7 +120,7 @@
 
   <!-- Auth Page -->
   <section id="authPage" class="page active">
-    <h1>Apple of Fortune Hacker</h1>
+    <h1>Apple of Fortune Hack</h1>
     <input type="text" id="loginUser" placeholder="ID ou Username" class="input-field" />
     <input type="password" id="loginPass" placeholder="Mot de passe" class="input-field" />
     <button onclick="login()" class="btn">Connexion</button>
@@ -249,7 +254,7 @@
     }
 
     function getBookmakerLogo(bookmaker) {
-      const baseURL = "https://jonnhy2255.github.io/2/";
+      const baseURL = "./";
       switch (bookmaker.toLowerCase()) {
         case '1xbet': return baseURL + "1xbet.png";
         case 'paripesa': return baseURL + "paripesa.png";
