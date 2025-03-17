@@ -1,0 +1,22 @@
+{
+  "name": "Apple of Fortune Hack",
+  "short_name": "AF Hack",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "description": "Prédictions IA pour Apple of Fortune.",
+  "icons": [
+    {
+      "src": "apple-of-fortune-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-of-fortune-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
