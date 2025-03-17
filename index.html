@@ -7,65 +7,99 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#000000" />
 
-  <title>Apple of Fortune Hacker 2.3</title>
+  <title>Apple of Fortune Hacker 3.0</title>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json" />
 
+  <!-- CSS Styles -->
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: 'Courier New', monospace;
       background-color: #000;
       color: #00ff00;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-    .glow {
+    h1, h2 {
+      text-align: center;
       text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+      margin-bottom: 1rem;
+    }
+
+    .page {
+      display: none;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .page.active {
+      display: block;
     }
 
     .input-field {
       background-color: #111;
       border: 1px solid #00ff00;
       color: #00ff00;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
+      padding: 12px;
+      border-radius: 8px;
       width: 100%;
-      margin-bottom: 0.75rem;
-      transition: all 0.3s ease;
+      margin: 8px 0;
     }
 
-    .button-green {
+    .btn {
       background-color: #00ff00;
       color: #000;
-      padding: 0.75rem 1rem;
-      border-radius: 0.5rem;
+      border: none;
+      padding: 12px 20px;
+      margin-top: 10px;
+      border-radius: 8px;
       font-weight: bold;
+      cursor: pointer;
+      width: 100%;
       text-transform: uppercase;
-      transition: background-color 0.3s ease, transform 0.2s;
+      transition: background-color 0.3s ease;
     }
 
-    .button-green:hover {
+    .btn.secondary {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .btn:hover {
       background-color: #00cc00;
-      transform: translateY(-2px);
+    }
+
+    .btn.secondary:hover {
+      background-color: #0056b3;
     }
 
     .bookmaker-logo {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      display: inline-block;
-      margin-left: 0.5rem;
+      width: 40px;
+      height: 40px;
+      vertical-align: middle;
+      margin-left: 10px;
+      border-radius: 50%;
+      border: 1px solid #00ff00;
     }
 
-    .background-animation {
+    #footer-text {
+      font-size: 12px;
       position: fixed;
-      bottom: 0;
-      left: 0;
+      bottom: 5px;
+      text-align: center;
       width: 100%;
       color: #00ff00;
+      animation: typing 8s steps(40, end) infinite;
       white-space: nowrap;
       overflow: hidden;
-      animation: typing 8s steps(40, end) infinite;
       border-right: 2px solid #00ff00;
     }
 
@@ -77,80 +111,77 @@
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col justify-center items-center p-4">
+<body>
 
   <!-- Auth Page -->
-  <div id="authPage" class="w-full max-w-sm text-center" style="display: block;">
-    <h1 class="text-3xl font-bold glow mb-4">Apple of Fortune Hacker 2.3</h1>
-    <input type="text" id="loginUser" placeholder="Votre ID ou Username" class="input-field" />
+  <section id="authPage" class="page active">
+    <h1>Apple of Fortune Hacker</h1>
+    <input type="text" id="loginUser" placeholder="ID ou Username" class="input-field" />
     <input type="password" id="loginPass" placeholder="Mot de passe" class="input-field" />
-    <button onclick="login()" class="button-green w-full mb-3">Connexion</button>
-    <button onclick="showRegister()" class="button-green w-full bg-blue-500 hover:bg-blue-600">Inscription</button>
-  </div>
+    <button onclick="login()" class="btn">Connexion</button>
+    <button onclick="showRegister()" class="btn secondary">Inscription</button>
+  </section>
 
   <!-- Register Page -->
-  <div id="registerPage" class="w-full max-w-sm text-center" style="display: none;">
-    <h1 class="text-3xl font-bold glow mb-4">Créer un compte</h1>
+  <section id="registerPage" class="page">
+    <h1>Créer un compte</h1>
     <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" class="input-field" />
     <input type="text" id="registerUserId" placeholder="ID Bookmaker" class="input-field" />
     <select id="registerBookmaker" class="input-field">
       <option value="" disabled selected>Choisissez votre bookmaker</option>
       <option value="1xbet">1XBET</option>
       <option value="Paripesa">Paripesa</option>
+      <option value="888starz">888starz</option>
       <option value="Melbet">Melbet</option>
     </select>
     <input type="password" id="registerPass" placeholder="Mot de passe" class="input-field" />
     <input type="password" id="registerPassConfirm" placeholder="Confirmez le mot de passe" class="input-field" />
-    <button onclick="register()" class="button-green w-full mb-3">S'inscrire</button>
-    <button onclick="showLogin()" class="button-green w-full bg-gray-500 hover:bg-gray-600">Retour</button>
-  </div>
+    <button onclick="register()" class="btn">S'inscrire</button>
+    <button onclick="showLogin()" class="btn secondary">Retour</button>
+  </section>
 
-  <!-- Main Interface -->
-  <div id="mainPage" class="w-full max-w-sm text-center" style="display: none;">
-    <h2 class="text-xl glow mb-2">Bienvenue <span id="userWelcome"></span></h2>
-    <p class="text-green-400 mb-4 flex justify-center items-center">
-      Bookmaker :
-      <span id="userBookmaker" class="ml-2"></span>
-    </p>
-    <button onclick="generateResults()" class="button-green w-full mb-3">Obtenir la prédiction</button>
-    <p id="loading" class="text-yellow-400 mb-3" style="display: none;">Analyse IA en cours...</p>
-    <div id="results" class="text-2xl glow"></div>
-    <button onclick="logout()" class="button-green bg-red-500 hover:bg-red-600 mt-4">Déconnexion</button>
-  </div>
+  <!-- Main Page -->
+  <section id="mainPage" class="page">
+    <h2>Bienvenue <span id="userWelcome"></span></h2>
+    <p>Bookmaker : <span id="userBookmaker"></span></p>
+    <button onclick="generateResults()" class="btn">Obtenir la prédiction</button>
+    <div id="loading" style="display:none; margin-top:10px;">Analyse en cours...</div>
+    <div id="results" style="margin-top:10px; font-size:24px;"></div>
+    <button onclick="logout()" class="btn secondary" style="margin-top:20px;">Déconnexion</button>
+  </section>
 
-  <!-- Footer Animation -->
-  <div class="background-animation text-xs"># Initialisation # Chargement IA # Calcul # Prédictions # Terminé...</div>
+  <div id="footer-text"># Chargement IA # Calcul # Prédiction # Terminé</div>
 
   <!-- JS Logic -->
   <script>
-    let users = []; // Users storage
+    let users = [];
     let currentUser = null;
 
-    function showLogin() {
-      togglePages('authPage');
-      document.getElementById('loginUser').value = currentUser ? currentUser.userId : '';
+    function togglePages(pageId) {
+      document.getElementById('authPage').classList.remove('active');
+      document.getElementById('registerPage').classList.remove('active');
+      document.getElementById('mainPage').classList.remove('active');
+      document.getElementById(pageId).classList.add('active');
     }
 
     function showRegister() {
       togglePages('registerPage');
     }
 
+    function showLogin() {
+      togglePages('authPage');
+      if (currentUser) {
+        document.getElementById('loginUser').value = currentUser.userId;
+      }
+    }
+
     function showMainPage() {
       togglePages('mainPage');
-
       document.getElementById('userWelcome').innerText = currentUser.username;
       document.getElementById('userBookmaker').innerHTML = `
         ${currentUser.bookmaker}
-        ${getBookmakerLogo(currentUser.bookmaker)}
+        <img src="${getBookmakerLogo(currentUser.bookmaker)}" alt="${currentUser.bookmaker}" class="bookmaker-logo">
       `;
-    }
-
-    function togglePages(pageId) {
-      document.getElementById('authPage').style.display = 'none';
-      document.getElementById('registerPage').style.display = 'none';
-      document.getElementById('mainPage').style.display = 'none';
-
-      document.getElementById(pageId).style.display = 'block';
     }
 
     function register() {
@@ -177,8 +208,7 @@
 
       currentUser = { username, userId, bookmaker, pass };
       users.push(currentUser);
-
-      showMainPage(); // Direct login
+      showMainPage();
     }
 
     function login() {
@@ -186,6 +216,7 @@
       const pass = document.getElementById('loginPass').value.trim();
 
       const user = users.find(u => (u.userId === userInput || u.username === userInput) && u.pass === pass);
+
       if (!user) {
         alert("Identifiants incorrects !");
         return;
@@ -218,13 +249,21 @@
     }
 
     function getBookmakerLogo(bookmaker) {
-      let imgSrc = '';
-      switch (bookmaker) {
-        case '1xbet': imgSrc = 'https://cdn-icons-png.flaticon.com/512/732/732229.png'; break;
-        case 'Paripesa': imgSrc = 'https://cdn-icons-png.flaticon.com/512/732/732245.png'; break;
-        case 'Melbet': imgSrc = 'https://cdn-icons-png.flaticon.com/512/732/732190.png'; break;
+      const baseURL = "https://jonnhy2255.github.io/2/";
+      switch (bookmaker.toLowerCase()) {
+        case '1xbet': return baseURL + "1xbet.png";
+        case 'paripesa': return baseURL + "paripesa.png";
+        case '888starz': return baseURL + "888starz.png";
+        case 'melbet': return baseURL + "melbet.png";
+        default: return "";
       }
-      return `<img src="${imgSrc}" alt="${bookmaker}" class="bookmaker-logo" />`;
+    }
+
+    // PWA Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker enregistré !'))
+        .catch(err => console.log('Erreur SW:', err));
     }
   </script>
 </body>
