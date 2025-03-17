@@ -7,13 +7,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#000000" />
 
-  <title>Apple of Fortune Hacker 2.2</title>
+  <title>Apple of Fortune Hacker 2.3</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="data:application/json;base64,ewogICAgIm5hbWUiOiAiQXBwbGUgb2YgRm9ydHVuZSIsCiAgICAic2hvcnRfbmFtZSI6ICJBUEYiLAogICAgInN0YXJ0X3VybCI6ICIuLyIsCiAgICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAgICJ0aGVtZV9jb2xvciI6ICIjMDAwMDAwIiwKICAgICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDAwMDAiCn0=" />
 
   <style>
     body {
@@ -21,9 +18,11 @@
       background-color: #000;
       color: #00ff00;
     }
+
     .glow {
       text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
     }
+
     .input-field {
       background-color: #111;
       border: 1px solid #00ff00;
@@ -34,6 +33,7 @@
       margin-bottom: 0.75rem;
       transition: all 0.3s ease;
     }
+
     .button-green {
       background-color: #00ff00;
       color: #000;
@@ -43,10 +43,12 @@
       text-transform: uppercase;
       transition: background-color 0.3s ease, transform 0.2s;
     }
+
     .button-green:hover {
       background-color: #00cc00;
       transform: translateY(-2px);
     }
+
     .bookmaker-logo {
       width: 24px;
       height: 24px;
@@ -54,6 +56,7 @@
       display: inline-block;
       margin-left: 0.5rem;
     }
+
     .background-animation {
       position: fixed;
       bottom: 0;
@@ -65,6 +68,7 @@
       animation: typing 8s steps(40, end) infinite;
       border-right: 2px solid #00ff00;
     }
+
     @keyframes typing {
       0% { width: 0; }
       50% { width: 100%; }
@@ -75,17 +79,17 @@
 
 <body class="min-h-screen flex flex-col justify-center items-center p-4">
 
-  <!-- Login -->
-  <div id="authPage" class="w-full max-w-sm text-center">
-    <h1 class="text-3xl font-bold glow mb-4">Apple of Fortune Hacker 2.2</h1>
+  <!-- Auth Page -->
+  <div id="authPage" class="w-full max-w-sm text-center" style="display: block;">
+    <h1 class="text-3xl font-bold glow mb-4">Apple of Fortune Hacker 2.3</h1>
     <input type="text" id="loginUser" placeholder="Votre ID ou Username" class="input-field" />
     <input type="password" id="loginPass" placeholder="Mot de passe" class="input-field" />
     <button onclick="login()" class="button-green w-full mb-3">Connexion</button>
     <button onclick="showRegister()" class="button-green w-full bg-blue-500 hover:bg-blue-600">Inscription</button>
   </div>
 
-  <!-- Register -->
-  <div id="registerPage" class="hidden w-full max-w-sm text-center">
+  <!-- Register Page -->
+  <div id="registerPage" class="w-full max-w-sm text-center" style="display: none;">
     <h1 class="text-3xl font-bold glow mb-4">Créer un compte</h1>
     <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" class="input-field" />
     <input type="text" id="registerUserId" placeholder="ID Bookmaker" class="input-field" />
@@ -102,11 +106,14 @@
   </div>
 
   <!-- Main Interface -->
-  <div id="mainPage" class="hidden w-full max-w-sm text-center">
+  <div id="mainPage" class="w-full max-w-sm text-center" style="display: none;">
     <h2 class="text-xl glow mb-2">Bienvenue <span id="userWelcome"></span></h2>
-    <p class="text-green-400 mb-4 flex justify-center items-center">Bookmaker : <span id="userBookmaker" class="ml-2"></span></p>
+    <p class="text-green-400 mb-4 flex justify-center items-center">
+      Bookmaker :
+      <span id="userBookmaker" class="ml-2"></span>
+    </p>
     <button onclick="generateResults()" class="button-green w-full mb-3">Obtenir la prédiction</button>
-    <p id="loading" class="text-yellow-400 mb-3 hidden">Analyse IA en cours...</p>
+    <p id="loading" class="text-yellow-400 mb-3" style="display: none;">Analyse IA en cours...</p>
     <div id="results" class="text-2xl glow"></div>
     <button onclick="logout()" class="button-green bg-red-500 hover:bg-red-600 mt-4">Déconnexion</button>
   </div>
@@ -114,40 +121,36 @@
   <!-- Footer Animation -->
   <div class="background-animation text-xs"># Initialisation # Chargement IA # Calcul # Prédictions # Terminé...</div>
 
-  <!-- Service Worker inline -->
+  <!-- JS Logic -->
   <script>
-    const swCode = `
-      const CACHE_NAME = 'apple-fortune-v2';
-      const urlsToCache = ['./'];
-      self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
-      self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
-      self.addEventListener('activate', e => e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))));
-    `;
-
-    if ('serviceWorker' in navigator) {
-      const blob = new Blob([swCode], { type: 'application/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).then(() => console.log('Service Worker enregistré !'));
-    }
-  </script>
-
-  <!-- App logic -->
-  <script>
-    let users = []; // Simulated users
+    let users = []; // Users storage
     let currentUser = null;
 
     function showLogin() {
-      document.getElementById('registerPage').classList.add('hidden');
-      document.getElementById('authPage').classList.remove('hidden');
-
-      if (currentUser) {
-        document.getElementById('loginUser').value = currentUser.userId;
-      }
+      togglePages('authPage');
+      document.getElementById('loginUser').value = currentUser ? currentUser.userId : '';
     }
 
     function showRegister() {
-      document.getElementById('authPage').classList.add('hidden');
-      document.getElementById('registerPage').classList.remove('hidden');
+      togglePages('registerPage');
+    }
+
+    function showMainPage() {
+      togglePages('mainPage');
+
+      document.getElementById('userWelcome').innerText = currentUser.username;
+      document.getElementById('userBookmaker').innerHTML = `
+        ${currentUser.bookmaker}
+        ${getBookmakerLogo(currentUser.bookmaker)}
+      `;
+    }
+
+    function togglePages(pageId) {
+      document.getElementById('authPage').style.display = 'none';
+      document.getElementById('registerPage').style.display = 'none';
+      document.getElementById('mainPage').style.display = 'none';
+
+      document.getElementById(pageId).style.display = 'block';
     }
 
     function register() {
@@ -175,9 +178,7 @@
       currentUser = { username, userId, bookmaker, pass };
       users.push(currentUser);
 
-      // Auto-login après inscription
-      document.getElementById('registerPage').classList.add('hidden');
-      showMainPage();
+      showMainPage(); // Direct login
     }
 
     function login() {
@@ -194,21 +195,9 @@
       showMainPage();
     }
 
-    function showMainPage() {
-      document.getElementById('authPage').classList.add('hidden');
-      document.getElementById('registerPage').classList.add('hidden');
-      document.getElementById('mainPage').classList.remove('hidden');
-
-      document.getElementById('userWelcome').innerText = currentUser.username;
-      const bookmakerDisplay = `${currentUser.bookmaker}`;
-      const bookmakerLogo = getBookmakerLogo(currentUser.bookmaker);
-      document.getElementById('userBookmaker').innerHTML = bookmakerDisplay + bookmakerLogo;
-    }
-
     function logout() {
       currentUser = null;
-      document.getElementById('mainPage').classList.add('hidden');
-      document.getElementById('authPage').classList.remove('hidden');
+      showLogin();
     }
 
     function generateResults() {
@@ -217,14 +206,14 @@
         return;
       }
 
-      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('loading').style.display = 'block';
       document.getElementById('results').innerText = '';
 
       setTimeout(() => {
         const apples = ['🍏', '🍏', '🍏', '🍏', '❌'];
         const shuffled = apples.sort(() => Math.random() - 0.5);
         document.getElementById('results').innerText = shuffled.join(' ');
-        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('loading').style.display = 'none';
       }, 2000);
     }
 
