@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- PWA Manifest & iOS Support -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00ff00" />
+
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="apple-touch-icon" sizes="192x192" href="apple-of-fortune-icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="apple-of-fortune-icon-512.png" />
+
+  <title>Apple of Fortune Hack</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', monospace;
+      background-color: #000;
+      color: #00ff00;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1, h2 {
+      text-align: center;
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
+      margin-bottom: 1rem;
+    }
+
+    .page {
+      display: none;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .input-field, .btn {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .input-field {
+      background-color: #111;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+    }
+
+    .btn {
+      background-color: #00ff00;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn.secondary {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .btn:hover {
+      background-color: #00cc00;
+    }
+
+    .btn.secondary:hover {
+      background-color: #0056b3;
+    }
+
+    .bookmaker-logo {
+      width: 40px;
+      height: 40px;
+      vertical-align: middle;
+      margin-left: 10px;
+      border-radius: 50%;
+      border: 1px solid #00ff00;
+    }
+
+    #footer-text {
+      font-size: 12px;
+      position: fixed;
+      bottom: 5px;
+      text-align: center;
+      width: 100%;
+      color: #00ff00;
+      animation: typing 8s steps(40, end) infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #00ff00;
+    }
+
+    @keyframes typing {
+      0% { width: 0; }
+      50% { width: 100%; }
+      100% { width: 0; }
+    }
+
+    #predictionContainer {
+      background-color: #111;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      min-height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .loader {
+      border: 6px solid #333;
+      border-top: 6px solid #00ff00;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Page d'animation de chargement */
+    #loadingPage h2 {
+      margin-bottom: 20px;
+    }
+
+    .dots {
+      display: inline-block;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .progress-bar {
+      width: 100%;
+      background-color: #222;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .progress {
+      height: 10px;
+      background-color: #00ff00;
+      width: 0;
+      transition: width 0.5s;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Auth Page -->
+  <section id="authPage" class="page active">
+    <h1>Apple of Fortune Hack</h1>
+    <input type="text" id="loginUser" placeholder="ID ou Username" class="input-field" />
+    <input type="password" id="loginPass" placeholder="Mot de passe" class="input-field" />
+    <button onclick="login()" class="btn">Connexion</button>
+    <button onclick="showRegister()" class="btn secondary">Inscription</button>
+  </section>
+
+  <!-- Register Page -->
+  <section id="registerPage" class="page">
+    <h1>Créer un compte</h1>
+    <input type="text" id="registerUsername" placeholder="Nom d'utilisateur" class="input-field" />
+    <input type="text" id="registerUserId" placeholder="ID Bookmaker" class="input-field" />
+    <select id="registerBookmaker" class="input-field">
+      <option value="" disabled selected>Choisissez votre bookmaker</option>
+      <option value="1xbet">1XBET</option>
+      <option value="Paripesa">Paripesa</option>
+      <option value="888starz">888starz</option>
+      <option value="Melbet">Melbet</option>
+    </select>
+    <input type="password" id="registerPass" placeholder="Mot de passe" class="input-field" />
+    <input type="password" id="registerPassConfirm" placeholder="Confirmez le mot de passe" class="input-field" />
+    <button onclick="register()" class="btn">S'inscrire</button>
+    <button onclick="showLogin()" class="btn secondary">Retour</button>
+  </section>
+
+  <!-- Loading Animation Page -->
+  <section id="loadingPage" class="page">
+    <h2>Connexion au serveur<span class="dots">...</span></h2>
+    <div class="progress-bar">
+      <div class="progress" id="progressBar"></div>
+    </div>
+  </section>
+
+  <!-- Main Page -->
+  <section id="mainPage" class="page">
+    <h2>Bienvenue <span id="userWelcome"></span></h2>
+    <p>Bookmaker : <span id="userBookmaker"></span></p>
+
+    <!-- Conteneur Prédictions -->
+    <div id="predictionContainer">
+      <div id="loading" style="display:none;">
+        <div class="loader"></div>
+      </div>
+      <div id="results" style="font-size:24px;"></div>
+    </div>
+
+    <button onclick="generateResults()" class="btn">Obtenir la prédiction</button>
+    <button onclick="logout()" class="btn secondary" style="margin-top:20px;">Déconnexion</button>
+  </section>
+
+  <div id="footer-text"># Chargement IA # Calcul # Prédiction # Terminé</div>
+
+  <script>
+    let users = [];
+    let currentUser = null;
+
+    function togglePages(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function showRegister() {
+      togglePages('registerPage');
+    }
+
+    function showLogin() {
+      togglePages('authPage');
+      if (currentUser) {
+        document.getElementById('loginUser').value = currentUser.userId;
+      }
+    }
+
+    function showLoadingAnimation(callback) {
+      togglePages('loadingPage');
+      const progress = document.getElementById('progressBar');
+      let width = 0;
+      const interval = setInterval(() => {
+        width += 10;
+        progress.style.width = width + '%';
+
+        if (width >= 100) {
+          clearInterval(interval);
+          setTimeout(callback, 500);
+        }
+      }, 400);
+    }
+
+    function showMainPage() {
+      togglePages('mainPage');
+      document.getElementById('userWelcome').innerText = currentUser.username;
+      document.getElementById('userBookmaker').innerHTML = `
+        ${currentUser.bookmaker}
+        <img src="${getBookmakerLogo(currentUser.bookmaker)}" alt="${currentUser.bookmaker}" class="bookmaker-logo">
+      `;
+    }
+
+    function register() {
+      const username = document.getElementById('registerUsername').value.trim();
+      const userId = document.getElementById('registerUserId').value.trim();
+      const bookmaker = document.getElementById('registerBookmaker').value;
+      const pass = document.getElementById('registerPass').value.trim();
+      const passConfirm = document.getElementById('registerPassConfirm').value.trim();
+
+      if (!username || !userId || !bookmaker || !pass || !passConfirm) {
+        alert("Complétez tous les champs !");
+        return;
+      }
+
+      if (pass !== passConfirm) {
+        alert("Les mots de passe ne correspondent pas !");
+        return;
+      }
+
+      if (users.find(u => u.userId === userId)) {
+        alert("Cet ID de bookmaker existe déjà !");
+        return;
+      }
+
+      currentUser = { username, userId, bookmaker, pass };
+      users.push(currentUser);
+
+      showLoadingAnimation(showMainPage);
+    }
+
+    function login() {
+      const userInput = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+
+      const user = users.find(u => (u.userId === userInput || u.username === userInput) && u.pass === pass);
+
+      if (!user) {
+        alert("Identifiants incorrects !");
+        return;
+      }
+
+      currentUser = user;
+      showLoadingAnimation(showMainPage);
+    }
+
+    function logout() {
+      currentUser = null;
+      showLogin();
+    }
+
+    function generateResults() {
+      if (!currentUser) {
+        alert("Vous devez être connecté !");
+        return;
+      }
+
+      const loadingDiv = document.getElementById('loading');
+      const resultsDiv = document.getElementById('results');
+
+      loadingDiv.style.display = 'block';
+      resultsDiv.innerText = '';
+
+      setTimeout(() => {
+        const apples = ['🍎', '🍎', '❌', '🍎', '🍎'];
+        const shuffled = apples.sort(() => Math.random() - 0.5);
+        resultsDiv.innerText = shuffled.join(' ');
+        loadingDiv.style.display = 'none';
+      }, 2000);
+    }
+
+    function getBookmakerLogo(bookmaker) {
+      const baseURL = "./";
+      switch (bookmaker.toLowerCase()) {
+        case '1xbet': return baseURL + "1xbet.png";
+        case 'paripesa': return baseURL + "paripesa.png";
+        case '888starz': return baseURL + "888starz.png";
+        case 'melbet': return baseURL + "melbet.png";
+        default: return "";
+      }
+    }
+
+    // PWA Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('Service Worker enregistré'))
+        .catch(err => console.error('Erreur SW:', err));
+    }
+
+  </script>
+</body>
+</html>
