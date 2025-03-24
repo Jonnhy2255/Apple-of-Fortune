@@ -8,11 +8,9 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#00ff00" />
   
-  <!-- iOS PWA Fullscreen -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-  <!-- iOS Icons (obligatoire pour icône écran d'accueil) -->
   <link rel="apple-touch-icon" sizes="192x192" href="apple-of-fortune-icon-192.png" />
   <link rel="apple-touch-icon" sizes="512x512" href="apple-of-fortune-icon-512.png" />
 
@@ -49,26 +47,27 @@
       display: block;
     }
 
+    .input-field, .btn {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
     .input-field {
       background-color: #111;
       border: 1px solid #00ff00;
       color: #00ff00;
-      padding: 12px;
-      border-radius: 8px;
-      width: 100%;
-      margin: 8px 0;
     }
 
     .btn {
       background-color: #00ff00;
       color: #000;
       border: none;
-      padding: 12px 20px;
-      margin-top: 10px;
-      border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      width: 100%;
       text-transform: uppercase;
       transition: background-color 0.3s ease;
     }
@@ -113,6 +112,54 @@
       50% { width: 100%; }
       100% { width: 0; }
     }
+
+    /* Conteneur de prédiction */
+    #predictionContainer {
+      background-color: #111;
+      border: 1px solid #00ff00;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      min-height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Loader Animation */
+    .loader {
+      border: 6px solid #333;
+      border-top: 6px solid #00ff00;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Effet de connexion */
+    #signalEffect {
+      display: none;
+      margin: 20px auto;
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle, #00ff00 20%, transparent 20%), radial-gradient(circle, transparent 20%, #00ff00 20%, transparent 30%), radial-gradient(circle, transparent 30%, #00ff00 30%);
+      background-size: 100% 100%;
+      animation: pulse 1.5s infinite;
+      border-radius: 50%;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
   </style>
 </head>
 
@@ -149,15 +196,24 @@
   <section id="mainPage" class="page">
     <h2>Bienvenue <span id="userWelcome"></span></h2>
     <p>Bookmaker : <span id="userBookmaker"></span></p>
+
+    <!-- Effet de connexion au signal -->
+    <div id="signalEffect"></div>
+
+    <!-- Conteneur Prédictions -->
+    <div id="predictionContainer">
+      <div id="loading" style="display:none;">
+        <div class="loader"></div>
+      </div>
+      <div id="results" style="font-size:24px;"></div>
+    </div>
+
     <button onclick="generateResults()" class="btn">Obtenir la prédiction</button>
-    <div id="loading" style="display:none; margin-top:10px;">Analyse en cours...</div>
-    <div id="results" style="margin-top:10px; font-size:24px;"></div>
     <button onclick="logout()" class="btn secondary" style="margin-top:20px;">Déconnexion</button>
   </section>
 
   <div id="footer-text"># Chargement IA # Calcul # Prédiction # Terminé</div>
 
-  <!-- JS Logic -->
   <script>
     let users = [];
     let currentUser = null;
@@ -175,6 +231,7 @@
 
     function showLogin() {
       togglePages('authPage');
+      document.getElementById('signalEffect').style.display = 'none';
       if (currentUser) {
         document.getElementById('loginUser').value = currentUser.userId;
       }
@@ -187,6 +244,14 @@
         ${currentUser.bookmaker}
         <img src="${getBookmakerLogo(currentUser.bookmaker)}" alt="${currentUser.bookmaker}" class="bookmaker-logo">
       `;
+
+      // Affiche l'effet "connexion au signal"
+      document.getElementById('signalEffect').style.display = 'block';
+
+      // Cache le signal après 3 secondes
+      setTimeout(() => {
+        document.getElementById('signalEffect').style.display = 'none';
+      }, 3000);
     }
 
     function register() {
@@ -242,14 +307,17 @@
         return;
       }
 
-      document.getElementById('loading').style.display = 'block';
-      document.getElementById('results').innerText = '';
+      const loadingDiv = document.getElementById('loading');
+      const resultsDiv = document.getElementById('results');
+
+      loadingDiv.style.display = 'block';
+      resultsDiv.innerText = '';
 
       setTimeout(() => {
-        const apples = ['🍏', '🍏', '🍏', '🍏', '❌'];
+        const apples = ['🍎', '🍎', '❌', '🍎', '🍎'];
         const shuffled = apples.sort(() => Math.random() - 0.5);
-        document.getElementById('results').innerText = shuffled.join(' ');
-        document.getElementById('loading').style.display = 'none';
+        resultsDiv.innerText = shuffled.join(' ');
+        loadingDiv.style.display = 'none';
       }, 2000);
     }
 
@@ -272,4 +340,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
